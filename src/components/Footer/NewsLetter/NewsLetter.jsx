@@ -113,7 +113,7 @@ const Button = styled.button`
 const Text = styled.div`
   margin-bottom: 20px;
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(46, 8, 84, 0.5);
 `;
 
 const SocialIcons = styled.div`
