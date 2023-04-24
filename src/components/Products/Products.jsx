@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import Product from "./Product/Product";
 
-const Products = ({ innerPage }) => {
+const Products = ({ innerPage, headingText }) => {
   return (
     <ProductsContainer>
-      {!innerPage && <SecHeading>POPULAR DEALS FOR IPET</SecHeading>}
+      {!innerPage && <SecHeading>{headingText}</SecHeading>}
       <Productos>
         <Product />
         <Product />

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import prod from "../../../assets/products/earbuds-prod-1.webp";
+import prod from "../../../assets/products/prod1.webp";
 
 const Product = () => {
   return (

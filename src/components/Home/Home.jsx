@@ -1,10 +1,9 @@
 import React from "react";
 import Banner from "./Banner/Banner";
 import styled from "styled-components";
-import NewsLetter from "../Footer/NewsLetter/NewsLetter";
-import Footer from "../Footer/Footer";
 import Category from "./Category/Category";
 import Products from "../Products/Products";
+import { Context } from "../../utils/context";
 
 const Home = () => {
   return (
@@ -14,12 +13,9 @@ const Home = () => {
       <MainContent>
         <Layout>
           <Category />
-          <Products />
+          <Products headingText="Popular deals for Ipet" />
         </Layout>
       </MainContent>
-
-      <NewsLetter />
-      <Footer />
     </HomeContainer>
   );
 };

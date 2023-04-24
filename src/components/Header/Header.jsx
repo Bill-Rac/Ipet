@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import { BsSearch, BsPersonCircle, BsCart3 } from "react-icons/bs";
 // import { useNavigate } from "react-router-dom";
-// import Cart from "../Cart/Cart";
+import Cart from "../Cart/Cart";
 // import { Context } from "../../utils/context";
 
 const Header = () => {
@@ -22,25 +22,28 @@ const Header = () => {
   }, []);
 
   return (
-    <MainHeader scrolled={scrolled ? "stickyHead" : ""}>
-      <HeaderContent>
-        <Left>
-          <LeftItem>HOME</LeftItem>
-          <LeftItem>ABOUT</LeftItem>
-          <LeftItem>CATEGORIES</LeftItem>
-        </Left>
-        <Center>
-          <BsSearch />
-        </Center>
-        <Right>
-          <CartIcon>
-            <BsCart3 />
-            <CartIconCount>3</CartIconCount>
-          </CartIcon>
-          <BsPersonCircle />
-        </Right>
-      </HeaderContent>
-    </MainHeader>
+    <>
+      <MainHeader scrolled={scrolled ? "stickyHead" : ""}>
+        <HeaderContent>
+          <Left>
+            <LeftItem>HOME</LeftItem>
+            <LeftItem>ABOUT</LeftItem>
+            <LeftItem>CATEGORIES</LeftItem>
+          </Left>
+          <Center>
+            <BsSearch />
+          </Center>
+          <Right>
+            <CartIcon>
+              <BsCart3 />
+              <CartIconCount>3</CartIconCount>
+            </CartIcon>
+            <BsPersonCircle />
+          </Right>
+        </HeaderContent>
+      </MainHeader>
+      <Cart />
+    </>
   );
 };
 
