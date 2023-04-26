@@ -2,12 +2,15 @@ import React from "react";
 import { useEffect, useState, useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import { BsSearch, BsPersonCircle, BsCart3 } from "react-icons/bs";
+import Search from "./Search/Search";
 // import { useNavigate } from "react-router-dom";
 import Cart from "../Cart/Cart";
 // import { Context } from "../../utils/context";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const handleScroll = () => {
     const offset = window.scrollY;
     if (offset > 200) {
@@ -31,10 +34,10 @@ const Header = () => {
             <LeftItem>CATEGORIES</LeftItem>
           </Left>
           <Center>
-            <BsSearch />
+            <BsSearch onClick={() => setShowSearch(true)}/>
           </Center>
           <Right>
-            <CartIcon>
+            <CartIcon onClick={() => setShowCart(true)}>
               <BsCart3 />
               <CartIconCount>3</CartIconCount>
             </CartIcon>
@@ -42,7 +45,8 @@ const Header = () => {
           </Right>
         </HeaderContent>
       </MainHeader>
-      <Cart />
+      {showCart && <Cart setShowCart={setShowCart} />}
+      {showSearch && <Search setShowSearch={setShowSearch} />}
     </>
   );
 };
