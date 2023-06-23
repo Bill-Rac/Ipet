@@ -16,13 +16,13 @@ const NewsLetter = () => {
         <Text>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</Text>
         <SocialIcons>
           <Icon>
-            <BsFacebook size={14} />
+            <BsFacebook size={15} />
           </Icon>
           <Icon>
-            <BsInstagram size={14} />
+            <BsInstagram size={15} />
           </Icon>
           <Icon>
-            <BsGithub size={14} />
+            <BsGithub size={15} />
           </Icon>
         </SocialIcons>
       </NewsletterContent>
