@@ -8,16 +8,23 @@ export class ProductsService {
 
   async create(product: CreateProductDTO) {
     return this.repository.create({
-      availability: product.availability,
-      categories: product.categories,
-      description: product.description,
+      ...product,
       image: product.imageURL,
-      name: product.name,
-      price: product.price,
     });
   }
 
   async findAll() {
     return this.repository.findAll();
+  }
+
+  async deleteById(id: string) {
+    return this.repository.deleteById(id);
+  }
+
+  async updateById(id: string, product: Partial<CreateProductDTO>) {
+    return this.repository.updateById(id, {
+      ...product,
+      image: product.imageURL,
+    });
   }
 }

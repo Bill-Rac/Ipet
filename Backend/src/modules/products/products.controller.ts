@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Delete,
+  Param,
+  Put,
+} from '@nestjs/common';
 import { CreateProductDTO } from './dto/products.dto';
 import { ProductsService } from './products.service';
 
@@ -13,5 +21,18 @@ export class ProductsController {
   @Get()
   findAll() {
     return this.service.findAll();
+  }
+
+  @Delete('/:id')
+  deleteById(@Param('id') id: string) {
+    return this.service.deleteById(id);
+  }
+
+  @Put('/:id')
+  updateById(
+    @Body() product: Partial<CreateProductDTO>,
+    @Param('id') id: string,
+  ) {
+    return this.service.updateById(id, product);
   }
 }
