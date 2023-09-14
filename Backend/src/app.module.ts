@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import databaseConfig from './modules/databases/database.config';
-import { ProductsModule } from './modules/products/products.module';
+import { ProductsModule } from './modules/products/ipet.module';
 
 @Module({
   imports: [

@@ -8,11 +8,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { CreateProductDTO } from './dto/products.dto';
-import { ProductsService } from './products.service';
+import { IpetService } from './ipet.service';
 
 @Controller('products')
-export class ProductsController {
-  constructor(private readonly service: ProductsService) {}
+export class IpetController {
+  constructor(private readonly service: IpetService) {}
   @Post()
   create(@Body() createProductDTO: CreateProductDTO) {
     return this.service.create(createProductDTO);
@@ -20,7 +20,7 @@ export class ProductsController {
 
   @Get()
   findAll() {
-    return this.service.findAll();
+    return this.service.findAllAvailableProducts();
   }
 
   @Delete('/:id')

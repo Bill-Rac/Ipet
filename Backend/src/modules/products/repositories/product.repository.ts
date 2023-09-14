@@ -16,8 +16,12 @@ export class ProductsRepository {
     return createdProduct.save();
   }
 
-  async findAll(): Promise<Product[]> {
-    return this.productModel.find().exec();
+  async findAllAvailable(): Promise<Product[]> {
+    return this.productModel
+      .find({
+        availability: true,
+      })
+      .exec();
   }
 
   async deleteById(id: string): Promise<void> {

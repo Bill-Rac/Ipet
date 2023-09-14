@@ -3,7 +3,7 @@ import { CreateProductDTO } from './dto/products.dto';
 import { ProductsRepository } from './repositories/product.repository';
 
 @Injectable()
-export class ProductsService {
+export class IpetService {
   constructor(private readonly repository: ProductsRepository) {}
 
   async create(product: CreateProductDTO) {
@@ -13,8 +13,8 @@ export class ProductsService {
     });
   }
 
-  async findAll() {
-    return this.repository.findAll();
+  async findAllAvailableProducts() {
+    return this.repository.findAllAvailable();
   }
 
   async deleteById(id: string) {
