@@ -9,7 +9,7 @@ import databaseConfig from './database.config';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigType<typeof databaseConfig>) => {
         return {
-          uri: `mongodb+srv://petshop:${configService.password}@${configService.host}/?retryWrites=true&w=majority`,
+          uri: `mongodb+srv://${configService.host}:${configService.password}@petcluster.pq0zffq.mongodb.net/`,
           dbName: 'iPet',
         };
       },
