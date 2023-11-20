@@ -1,4 +1,5 @@
 import React from "react";
+import { useFetch } from "./useFetch";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -10,6 +11,8 @@ import AppContext from "./utils/context";
 import SignIn from "./components/Login/SignIn";
 
 const App = () => {
+  const { data, loading, error } = useFetch("http://localhost:3000/products");
+
   return (
     <BrowserRouter>
       <AppContext>
@@ -19,6 +22,15 @@ const App = () => {
           <Route path="/category/:id" element={<Category />} />
           <Route path="/product/:id" element={<SingleProduct />} />
         </Routes>
+        <div>
+          <ul>
+            {error && <li>Error: {error}</li>}
+            {loading && <li>Loading...</li>}
+            {data?.map((product) => (
+              <li key={product.id}>{product.name}</li>
+            ))}
+          </ul>
+        </div>
         <NewsLetter />
         <Footer />
       </AppContext>
