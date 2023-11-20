@@ -22,7 +22,7 @@ const App = () => {
           <Route path="/category/:id" element={<Category />} />
           <Route path="/product/:id" element={<SingleProduct />} />
         </Routes>
-        <div>
+        {/* <div>
           <ul>
             {error && <li>Error: {error}</li>}
             {loading && <li>Loading...</li>}
@@ -30,7 +30,7 @@ const App = () => {
               <li key={product.id}>{product.name}</li>
             ))}
           </ul>
-        </div>
+        </div> */}
         <NewsLetter />
         <Footer />
       </AppContext>

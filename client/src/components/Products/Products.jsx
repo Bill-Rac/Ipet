@@ -7,12 +7,9 @@ const Products = ({ innerPage, headingText }) => {
     <ProductsContainer>
       {!innerPage && <SecHeading>{headingText}</SecHeading>}
       <Productos>
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        <>
+          <Product />
+        </>
       </Productos>
     </ProductsContainer>
   );

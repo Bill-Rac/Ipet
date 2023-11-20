@@ -1,45 +1,48 @@
 import React from "react";
 import styled from "styled-components";
-import prod from "../../assets/products/prod1.webp";
 import RelatedProducts from "./RelatedProducts/RelatedProducts";
 import { BsFillCartPlusFill } from "react-icons/bs";
+import { useFetch } from "../../useFetch";
 
 const SingleProduct = () => {
+  const { data, loading, error } = useFetch("http://localhost:3000/products");
   return (
     <SingleProductMainContent>
       <Layout>
-        <SingleProductPage>
-          <Left>
-            <img src={prod} />
-          </Left>
-          <Right>
-            <Name>Product Name</Name>
-            <Price>Price</Price>
-            <Desc>Product Description</Desc>
+        {data?.map((product) => (
+          <SingleProductPage key={product.id}>
+            <Left>
+              <img src={product.image} />
+            </Left>
+            <Right>
+              <Name>{product.name}</Name>
+              <Price>{product.price}</Price>
+              <Desc>{product.description}</Desc>
 
-            <CartButtons>
-              <QuantityButtons>
-                <span>-</span>
-                <span>5</span>
-                <span>+</span>
-              </QuantityButtons>
+              <CartButtons>
+                <QuantityButtons>
+                  <span>-</span>
+                  <span>5</span>
+                  <span>+</span>
+                </QuantityButtons>
 
-              <AddToCartButton>
-                <BsFillCartPlusFill size={20} />
-                ADD TO CART
-              </AddToCartButton>
-            </CartButtons>
+                <AddToCartButton>
+                  <BsFillCartPlusFill size={20} />
+                  ADD TO CART
+                </AddToCartButton>
+              </CartButtons>
 
-            <Divider />
+              <Divider />
 
-            <InfoItem>
-              <TextBold>
-                Category:
-                <span>Snacks</span>
-              </TextBold>
-            </InfoItem>
-          </Right>
-        </SingleProductPage>
+              <InfoItem>
+                <TextBold>
+                  Category:
+                  <span>{product.categories}</span>
+                </TextBold>
+              </InfoItem>
+            </Right>
+          </SingleProductPage>
+        ))}
         <RelatedProducts />
       </Layout>
     </SingleProductMainContent>

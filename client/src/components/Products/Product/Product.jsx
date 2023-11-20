@@ -1,18 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-import prod from "../../../assets/products/prod1.webp";
+import { useFetch } from "../../../useFetch";
 
 const Product = () => {
+  const { data, loading, error } = useFetch("http://localhost:3000/products");
+
   return (
-    <ProductCard>
-      <Thumbnail>
-        <img src={prod} />
-      </Thumbnail>
-      <ProdDetails>
-        <Name>Product Name</Name>
-        <Price>$99</Price>
-      </ProdDetails>
-    </ProductCard>
+    <>
+      {error && <li>Error: {error}</li>}
+      {loading && <li>Loading...</li>}
+      {data?.map((product) => (
+        <ProductCard key={product.id}>
+          <Thumbnail>
+            <img src={product.image} />
+          </Thumbnail>
+          <ProdDetails>
+            <Name>{product.name}</Name>
+            <Price>{product.price}</Price>
+          </ProdDetails>
+        </ProductCard>
+      ))}
+    </>
   );
 };
 
