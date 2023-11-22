@@ -27,4 +27,8 @@ export class ProductsService {
       image: product.imageURL,
     });
   }
+
+  async findById(id: string) {
+    return this.repository.findById(id);
+  }
 }

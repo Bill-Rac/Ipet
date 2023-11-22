@@ -3,46 +3,53 @@ import styled from "styled-components";
 import RelatedProducts from "./RelatedProducts/RelatedProducts";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { useFetch } from "../../useFetch";
+import { useParams } from "react-router-dom";
 
 const SingleProduct = () => {
-  const { data, loading, error } = useFetch("http://localhost:3000/products");
+  const { id } = useParams();
+  const { data, loading, error } = useFetch(
+    `http://localhost:3000/products/${id}`
+  );
+  if (loading) {
+    return null;
+  }
   return (
     <SingleProductMainContent>
       <Layout>
-        {data?.map((product) => (
-          <SingleProductPage key={product.id}>
-            <Left>
-              <img src={product.image} />
-            </Left>
-            <Right>
-              <Name>{product.name}</Name>
-              <Price>{product.price}</Price>
-              <Desc>{product.description}</Desc>
+        {error && <li>Error: {error}</li>}
+        {loading && <li>Loading...</li>}
+        <SingleProductPage key={data._id}>
+          <Left>
+            <img src={data.image} />
+          </Left>
+          <Right>
+            <Name>{data.name}</Name>
+            <Price>{data.price}</Price>
+            <Desc>{data.description}</Desc>
 
-              <CartButtons>
-                <QuantityButtons>
-                  <span>-</span>
-                  <span>5</span>
-                  <span>+</span>
-                </QuantityButtons>
+            <CartButtons>
+              <QuantityButtons>
+                <span>-</span>
+                <span>5</span>
+                <span>+</span>
+              </QuantityButtons>
 
-                <AddToCartButton>
-                  <BsFillCartPlusFill size={20} />
-                  ADD TO CART
-                </AddToCartButton>
-              </CartButtons>
+              <AddToCartButton>
+                <BsFillCartPlusFill size={20} />
+                ADD TO CART
+              </AddToCartButton>
+            </CartButtons>
 
-              <Divider />
+            <Divider />
 
-              <InfoItem>
-                <TextBold>
-                  Category:
-                  <span>{product.categories}</span>
-                </TextBold>
-              </InfoItem>
-            </Right>
-          </SingleProductPage>
-        ))}
+            <InfoItem>
+              <TextBold>
+                Category:
+                <span>{data.categories}</span>
+              </TextBold>
+            </InfoItem>
+          </Right>
+        </SingleProductPage>
         <RelatedProducts />
       </Layout>
     </SingleProductMainContent>
@@ -53,7 +60,6 @@ export default SingleProduct;
 
 const SingleProductMainContent = styled.div`
   margin: 20px 0;
-
   @media screen and (min-width: 768px) {
     margin: 75px 0;
   }
@@ -78,16 +84,14 @@ const SingleProductPage = styled.div`
 `;
 
 const Left = styled.div`
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.05);
   flex-shrink: 0;
 
   @media screen and (min-width: 768px) {
-    width: 600px;
-    height: 600px;
+    width: 20rem;
+    height: 20rem;
   }
   img {
-    width: 100%;
+    width: 15rem;
     display: block;
   }
 `;

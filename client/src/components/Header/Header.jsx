@@ -2,11 +2,10 @@ import React from "react";
 import { useEffect, useState, useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import { BsSearch, BsPersonCircle, BsCart3 } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import Search from "./Search/Search";
-// import { useNavigate } from "react-router-dom";
 import Cart from "../Cart/Cart";
 import SignIn from "../Login/SignIn";
-// import { Context } from "../../utils/context";
 
 const Header = () => {
   const [showCart, setShowCart] = useState(false);
@@ -26,7 +25,7 @@ const Header = () => {
       <MainHeader>
         <HeaderContent>
           <Left>
-            <LeftItem>HOME</LeftItem>
+            <LeftItem to="/">HOME</LeftItem>
             <LeftItem>ABOUT</LeftItem>
             <LeftItem>CATEGORIES</LeftItem>
           </Left>
@@ -36,7 +35,7 @@ const Header = () => {
           <Right>
             <CartIcon onClick={() => setShowCart(true)}>
               <BsCart3 />
-              <CartIconCount>3</CartIconCount>
+              <CartIconCount>0</CartIconCount>
             </CartIcon>
             <BsPersonCircle onClick={handleOpenLoginModal} />
           </Right>
@@ -99,11 +98,13 @@ const Left = styled.ul`
   }
 `;
 
-const LeftItem = styled.li`
+const LeftItem = styled(Link)`
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
   cursor: pointer;
+  text-decoration: none;
+  color: white;
 `;
 
 const Center = styled.h1`

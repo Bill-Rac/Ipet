@@ -23,6 +23,11 @@ export class ProductsController {
     return this.service.findAll();
   }
 
+  @Get('/:id')
+  getById(@Param('id') id: string) {
+    return this.service.findById(id);
+  }
+
   @Delete('/:id')
   deleteById(@Param('id') id: string) {
     return this.service.deleteById(id);

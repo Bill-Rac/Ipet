@@ -33,4 +33,8 @@ export class ProductsRepository {
       this.logger.error(error);
     }
   }
+
+  async findById(id: string): Promise<Product> {
+    return this.productModel.findById(id)
+  }
 }

@@ -1,35 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useFetch } from "../../../useFetch";
+import { Link } from "react-router-dom";
 
 const Product = () => {
   const { data, loading, error } = useFetch("http://localhost:3000/products");
+  if (loading) return <li>Loading...</li>;
+  if (error) return <li>Error: {error}</li>;
 
-  return (
-    <>
-      {error && <li>Error: {error}</li>}
-      {loading && <li>Loading...</li>}
-      {data?.map((product) => (
-        <ProductCard key={product.id}>
-          <Thumbnail>
-            <img src={product.image} />
-          </Thumbnail>
-          <ProdDetails>
-            <Name>{product.name}</Name>
-            <Price>{product.price}</Price>
-          </ProdDetails>
-        </ProductCard>
-      ))}
-    </>
-  );
+  return data?.map((product) => (
+    <StyledLink to={`/product/${product._id}`} key={product.id}>
+      <ProductCard>
+        <Thumbnail>
+          <img src={product.image} alt={product.name} />
+        </Thumbnail>
+        <ProdDetails>
+          <Name>{product.name}</Name>
+          <Price>{product.price}</Price>
+        </ProdDetails>
+      </ProductCard>
+    </StyledLink>
+  ));
 };
 
 export default Product;
 
 const Thumbnail = styled.div`
-  width: 100%;
-  height: 180px;
-  background-color: rgba(0, 0, 0, 0.05);
+  width: 10rem;
+  height: 10rem;
   margin-bottom: 10px;
   padding: 25px;
   display: flex;
@@ -62,21 +60,30 @@ const ProductCard = styled.div`
   }
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
+
 const ProdDetails = styled.div``;
 
 const Name = styled.span`
-  font-size: 14px;
+  color: #242424;
+  font-size: 20px;
+  font-weight: bold;
   display: block;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   @media screen and (min-width: 768px) {
     font-size: 16px;
     margin-bottom: 10px;
   }
 `;
+
 const Price = styled.span`
-  font-size: 18px;
+  color: rgba(172, 0, 0, 1);
+  font-weight: 500;
+  font-size: 20px;
+
   @media screen and (min-width: 768px) {
     font-size: 24px;
   }

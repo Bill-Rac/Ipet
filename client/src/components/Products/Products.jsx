@@ -51,8 +51,8 @@ const SecHeading = styled.div`
 
 const Productos = styled.div`
   display: flex;
-  flex-flow: wrap;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 20px;
 
   @media screen and (min-width: 768px) {
     gap: 20px;
