@@ -1,56 +1,32 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { BsX } from "react-icons/bs";
+import { LoginButton } from "./LoginButton";
+import { LogoutButton } from "./Logout";
+import { Profile } from "../Profile/Profile";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const SignIn = ({ onClose }) => {
-  const [activeTab, setActiveTab] = useState("register");
-
   const handleClose = () => {
     onClose();
   };
 
-  const handleRegisterTab = () => {
-    setActiveTab("register");
-  };
-
-  const handleLoginTab = () => {
-    setActiveTab("login");
-  };
-
+  const { isAuthenticated } = useAuth0();
   return (
     <LoginWrapper>
       <ContentWrapper>
-        <TabsWrapper>
-          <TabButton
-            active={activeTab === "register"}
-            onClick={handleRegisterTab}
-          >
-            Sign Up
-          </TabButton>
-          <TabButton active={activeTab === "login"} onClick={handleLoginTab}>
-            Sign In
-          </TabButton>
-        </TabsWrapper>
-        {activeTab === "register" ? (
+        <TitleWrapper>
+          <Title>Iniciar sesion</Title>
+          <BsXIcon onClick={handleClose} />
+        </TitleWrapper>
+
+        {isAuthenticated ? (
           <>
-            <TitleWrapper>
-              <Title>Register</Title>
-              <BsXIcon onClick={handleClose} />
-            </TitleWrapper>
-            <Input type="email" placeholder="E-mail Address" />
-            <Input type="password" placeholder="Password" />
-            <Button>Create account</Button>
+            <Profile />
+            <LogoutButton />
           </>
         ) : (
-          <>
-            <TitleWrapper>
-              <Title>Login</Title>
-              <BsXIcon onClick={handleClose} />
-            </TitleWrapper>
-            <Input type="email" placeholder="E-mail Address" />
-            <Input type="password" placeholder="Password" />
-            <Button>Sign In</Button>
-          </>
+          <LoginButton />
         )}
       </ContentWrapper>
     </LoginWrapper>
@@ -69,7 +45,7 @@ const LoginWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 700;
+  font-weight: 300;
   z-index: 99;
 `;
 
@@ -77,7 +53,7 @@ const ContentWrapper = styled.div`
   background-color: #fff;
   width: 400px;
   padding: 20px;
-  border-radius: 4px;
+  border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
   @media (max-width: 480px) {
@@ -102,56 +78,4 @@ const BsXIcon = styled(BsX)`
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 25px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  height: 40px;
-  padding: 8px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  text-align: center;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  height: 40px;
-  background-color: #603e85;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: white;
-    border: 1px solid #603e85;
-    color: #653f90;
-  }
-`;
-
-const TabsWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-
-  @media (max-width: 480px) {
-    flex-wrap: wrap;
-  }
-`;
-
-const TabButton = styled.button`
-  padding: 8px 16px;
-  font-size: 16px;
-  border: none;
-  background-color: transparent;
-  color: ${(props) => (props.active ? "#653f90" : "black")};
-  cursor: pointer;
-
-  @media (max-width: 480px) {
-    flex-basis: 50%;
-  }
 `;

@@ -16,7 +16,7 @@ const Header = () => {
     setShowLoginModal(true);
   };
 
-  const handleCloseLoginModal = () => {
+  const handleCloseLoginModal = () => {http://localhost:3000
     setShowLoginModal(false);
   };
 

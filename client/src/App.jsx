@@ -7,7 +7,6 @@ import Category from "./components/Category/Category";
 import SingleProduct from "./components/SingleProduct/SingleProduct";
 import NewsLetter from "./components/Footer/NewsLetter/NewsLetter";
 import AppContext from "./utils/context";
-import SignIn from "./components/Login/SignIn";
 
 const App = () => {
   return (
