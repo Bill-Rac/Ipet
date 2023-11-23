@@ -31,4 +31,8 @@ export class ProductsService {
   async findById(id: string) {
     return this.repository.findById(id);
   }
+
+  async getProductsByCategory(category: string): Promise<Product[]> {
+    return this.repository.getProductsByCategory(category);
+  }
 }

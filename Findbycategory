@@ -1,0 +1,46 @@
+[1mdiff --git a/Backend/src/modules/products/products.controller.ts b/Backend/src/modules/products/products.controller.ts[m
+[1mindex 7da8210..e95b5db 100644[m
+[1m--- a/Backend/src/modules/products/products.controller.ts[m
+[1m+++ b/Backend/src/modules/products/products.controller.ts[m
+[36m@@ -28,6 +28,11 @@[m [mexport class ProductsController {[m
+     return this.service.findById(id);[m
+   }[m
+ [m
+[32m+[m[32m  @Get('category/:category')[m
+[32m+[m[32m  getProductsByCategory(@Param('category') category: string) {[m
+[32m+[m[32m    return this.service.getProductsByCategory(category);[m
+[32m+[m[32m  }[m
+[32m+[m
+   @Delete('/:id')[m
+   deleteById(@Param('id') id: string) {[m
+     return this.service.deleteById(id);[m
+[1mdiff --git a/Backend/src/modules/products/products.service.ts b/Backend/src/modules/products/products.service.ts[m
+[1mindex ee52bac..ab0c12b 100644[m
+[1m--- a/Backend/src/modules/products/products.service.ts[m
+[1m+++ b/Backend/src/modules/products/products.service.ts[m
+[36m@@ -31,4 +31,8 @@[m [mexport class ProductsService {[m
+   async findById(id: string) {[m
+     return this.repository.findById(id);[m
+   }[m
+[32m+[m
+[32m+[m[32m  async getProductsByCategory(category: string): Promise<Product[]> {[m
+[32m+[m[32m    return this.repository.getProductsByCategory(category);[m
+[32m+[m[32m  }[m
+ }[m
+[1mdiff --git a/Backend/src/modules/products/repositories/product.repository.ts b/Backend/src/modules/products/repositories/product.repository.ts[m
+[1mindex f1afa11..f62700c 100644[m
+[1m--- a/Backend/src/modules/products/repositories/product.repository.ts[m
+[1m+++ b/Backend/src/modules/products/repositories/product.repository.ts[m
+[36m@@ -37,4 +37,12 @@[m [mexport class ProductsRepository {[m
+   async findById(id: string): Promise<Product> {[m
+     return this.productModel.findById(id)[m
+   }[m
+[32m+[m
+[32m+[m[32m  async findByCategory(category: string): Promise<Product[]> {[m
+[32m+[m[32m    return this.productModel.find({ categories: category }).exec();[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  async getProductsByCategory(category: string): Promise<Product[]> {[m
+[32m+[m[32m    return this.productModel.find({ categories: category }).exec();[m
+[32m+[m[32m  }[m
+ }[m

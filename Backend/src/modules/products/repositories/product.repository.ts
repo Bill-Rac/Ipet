@@ -37,4 +37,12 @@ export class ProductsRepository {
   async findById(id: string): Promise<Product> {
     return this.productModel.findById(id)
   }
+
+  async findByCategory(category: string): Promise<Product[]> {
+    return this.productModel.find({ categories: category }).exec();
+  }
+
+  async getProductsByCategory(category: string): Promise<Product[]> {
+    return this.productModel.find({ categories: category }).exec();
+  }
 }

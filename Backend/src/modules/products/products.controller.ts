@@ -28,6 +28,11 @@ export class ProductsController {
     return this.service.findById(id);
   }
 
+  @Get('category/:category')
+  getProductsByCategory(@Param('category') category: string) {
+    return this.service.getProductsByCategory(category);
+  }
+
   @Delete('/:id')
   deleteById(@Param('id') id: string) {
     return this.service.deleteById(id);
