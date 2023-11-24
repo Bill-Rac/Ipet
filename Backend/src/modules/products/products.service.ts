@@ -32,7 +32,7 @@ export class ProductsService {
     return this.repository.findById(id);
   }
 
-  async getProductsByCategory(category: string): Promise<Product[]> {
+  async getProductsByCategory(category: string) {
     return this.repository.getProductsByCategory(category);
   }
 }
