@@ -5,17 +5,18 @@ import styled from "styled-components";
 import prod from "../../../assets/products/prod1.webp";
 // import Product from "../../Products/Product/Product";
 
-const CartItem = () => {
-  const [cart, setCart] = useContext(CartContext);
+const CartItem = ({ item, setCart }) => {
+  const handleRemove = () => {
+    setCart((prevCart) => prevCart.filter((product) => product.id !== item.id));
+  };
 
-  const quantity = cart.reduce((acc, curr) => {
-    return acc + curr.quantity;
-  }, 0);
-
-  const totalPrice = cart.reduce(
-    (acc, curr) => acc + curr.quantity * curr.price,
-    0
-  );
+  const handleQuantityChange = (newQuantity) => {
+    setCart((prevCart) =>
+      prevCart.map((product) =>
+        product.id === item.id ? { ...product, quantity: newQuantity } : product
+      )
+    );
+  };
 
   return (
     <CartProducts>
@@ -26,18 +27,22 @@ const CartItem = () => {
 
         <ProdDetails>
           <Name>Product name</Name>
-          <BsX CloseBtn />
+          <BsX CloseBtn onClick={handleRemove} />
 
           <QuantityButtons>
-            <span>-</span>
-            <span>5</span>
-            <span>+</span>
+            <span onClick={() => handleQuantityChange(item.quantity - 1)}>
+              -
+            </span>
+            <span>{item.quantity}</span>
+            <span onClick={() => handleQuantityChange(item.quantity + 1)}>
+              +
+            </span>
           </QuantityButtons>
 
           <Text>
-            <span>3</span>
+            <span>{item.quantity}</span>
             <span>x</span>
-            <HighLight>${totalPrice}</HighLight>
+            <HighLight>${item.quantity * item.price}</HighLight>
           </Text>
         </ProdDetails>
       </CartProduct>
@@ -139,3 +144,4 @@ const Text = styled.div`
 const HighLight = styled.span`
   color: #8e2de2;
 `;
+

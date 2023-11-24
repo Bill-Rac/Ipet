@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import { BsX, BsCartX } from "react-icons/bs";
 import CartItem from "./CartItem/CartItem";
+import { CartContext } from "./ShoppingCartContext";
 
 const Cart = ({ setShowCart }) => {
+  const [cart, setCart] = useContext(CartContext);
+
+  const getTotalPrice = () => {
+    return cart.reduce((acc, curr) => acc + curr.quantity * curr.price, 0);
+  };
+
   return (
     <CartPanel>
       <OpacLayer></OpacLayer>
@@ -16,26 +23,28 @@ const Cart = ({ setShowCart }) => {
           </CloseBtn>
         </CartHeader>
 
-        {/* <EmptyCart>
-          <BsCartX />
-          <span>You haven't added anything to your cart yet</span>
-          <ReturnCta>START SHOPPING</ReturnCta>
-        </EmptyCart> */}
-
-        <>
-          <CartItem />
-
-          <CartFooter>
-            <Subtotal>
-              <span>Total:</span>
-              <TextTotal>$1234</TextTotal>
-            </Subtotal>
-
-            <Button>
-              <CheckoutCta>CHECKOUT</CheckoutCta>
-            </Button>
-          </CartFooter>
-        </>
+        {cart.length > 0 ? (
+          <>
+            {cart.map((item) => (
+              <CartItem key={item.id} item={item} setCart={setCart} />
+            ))}
+            <CartFooter>
+              <Subtotal>
+                <span>Total:</span>
+                <TextTotal>${getTotalPrice()}</TextTotal>
+              </Subtotal>
+              <Button>
+                <CheckoutCta>CHECKOUT</CheckoutCta>
+              </Button>
+            </CartFooter>
+          </>
+        ) : (
+          <EmptyCart>
+            <BsCartX />
+            <span>You havent added anything to your cart yet</span>
+            <ReturnCta>START SHOPPING</ReturnCta>
+          </EmptyCart>
+        )}
       </CartContent>
     </CartPanel>
   );
@@ -120,19 +129,18 @@ const Text = styled.span`
   font-size: 14px;
 `;
 
-// const EmptyCart = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   gap: 20px;
-//   margin-top: 100px;
-
-//   svg {
-//     font-size: 120px;
-//     opacity: 0.1;
-//     color: rgba(67, 23, 109, 0.5);
-//   }
-// `;
+const EmptyCart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 100px;
+  svg {
+    font-size: 120px;
+    opacity: 0.1;
+    color: rgba(67, 23, 109, 0.5);
+  }
+`;
 
 const ReturnCta = styled.button`
   outline: 0;
