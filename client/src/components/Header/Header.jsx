@@ -1,11 +1,11 @@
-import React from "react";
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import { BsSearch, BsPersonCircle, BsCart3 } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import Search from "./Search/Search";
 import Cart from "../Cart/Cart";
 import SignIn from "../Login/SignIn";
+import { CartContext } from "../Cart/ShoppingCartContext";
 
 const Header = () => {
   const [showCart, setShowCart] = useState(false);
@@ -16,9 +16,16 @@ const Header = () => {
     setShowLoginModal(true);
   };
 
-  const handleCloseLoginModal = () => {http://localhost:3000
+  const handleCloseLoginModal = () => {
+    "http://localhost:3000";
     setShowLoginModal(false);
   };
+
+  const [cart, setCart] = useContext(CartContext);
+
+  const quantity = cart.reduce((acc, curr) => {
+    return acc + curr.quantity;
+  }, 0);
 
   return (
     <>
@@ -35,7 +42,7 @@ const Header = () => {
           <Right>
             <CartIcon onClick={() => setShowCart(true)}>
               <BsCart3 />
-              <CartIconCount>0</CartIconCount>
+              <CartIconCount>{quantity}</CartIconCount>
             </CartIcon>
             <BsPersonCircle onClick={handleOpenLoginModal} />
           </Right>

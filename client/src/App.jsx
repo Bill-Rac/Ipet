@@ -6,12 +6,11 @@ import Home from "./components/Home/Home";
 import Category from "./components/Category/Category";
 import SingleProduct from "./components/SingleProduct/SingleProduct";
 import NewsLetter from "./components/Footer/NewsLetter/NewsLetter";
-import AppContext from "./utils/context";
-
+import { ShoppingCartProvider } from "./components/Cart/ShoppingCartContext";
 const App = () => {
   return (
     <BrowserRouter>
-      <AppContext>
+      <ShoppingCartProvider>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -20,7 +19,7 @@ const App = () => {
         </Routes>
         <NewsLetter />
         <Footer />
-      </AppContext>
+      </ShoppingCartProvider>
     </BrowserRouter>
   );
 };

@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../ShoppingCartContext";
 import { BsX } from "react-icons/bs";
 import styled from "styled-components";
 import prod from "../../../assets/products/prod1.webp";
+// import Product from "../../Products/Product/Product";
 
 const CartItem = () => {
+  const [cart, setCart] = useContext(CartContext);
+
+  const quantity = cart.reduce((acc, curr) => {
+    return acc + curr.quantity;
+  }, 0);
+
+  const totalPrice = cart.reduce(
+    (acc, curr) => acc + curr.quantity * curr.price,
+    0
+  );
+
   return (
     <CartProducts>
       <CartProduct>
@@ -24,10 +37,9 @@ const CartItem = () => {
           <Text>
             <span>3</span>
             <span>x</span>
-            <HighLight>$ 43323</HighLight>
+            <HighLight>${totalPrice}</HighLight>
           </Text>
         </ProdDetails>
-        
       </CartProduct>
     </CartProducts>
   );
