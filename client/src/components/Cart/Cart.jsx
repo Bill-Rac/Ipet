@@ -5,10 +5,10 @@ import CartItem from "./CartItem/CartItem";
 import { CartContext } from "./ShoppingCartContext";
 
 const Cart = ({ setShowCart }) => {
-  const [cart, setCart] = useContext(CartContext);
+  const { shoppingCart } = useContext(CartContext);
 
   const getTotalPrice = () => {
-    return cart.reduce((acc, curr) => acc + curr.quantity * curr.price, 0);
+    return shoppingCart.items.reduce((acc, curr) => acc + curr.quantity * curr.price, 0);
   };
 
   return (
@@ -23,15 +23,18 @@ const Cart = ({ setShowCart }) => {
           </CloseBtn>
         </CartHeader>
 
-        {cart.length > 0 ? (
+        {shoppingCart.items.length > 0 ? (
           <>
-            {cart.map((item) => (
-              <CartItem key={item.id} item={item} setCart={setCart} />
-            ))}
+            <CartItemsContainer>
+              {shoppingCart.items.map((item) => (
+                <CartItem key={item.id} item={item} />
+              ))}
+            </CartItemsContainer>
+
             <CartFooter>
               <Subtotal>
                 <span>Total:</span>
-                <TextTotal>${getTotalPrice()}</TextTotal>
+                <TextTotal>${getTotalPrice().toFixed(2)}</TextTotal>
               </Subtotal>
               <Button>
                 <CheckoutCta>CHECKOUT</CheckoutCta>
@@ -197,4 +200,9 @@ const CheckoutCta = styled.button`
   background: #653f90;
   border-radius: 5px;
   font-weight: 700;
+`;
+
+const CartItemsContainer = styled.div`
+  overflow-y: auto;
+  max-height: 400px;
 `;

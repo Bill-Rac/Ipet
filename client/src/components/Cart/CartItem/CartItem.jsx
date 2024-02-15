@@ -2,39 +2,42 @@ import React, { useContext } from "react";
 import { CartContext } from "../ShoppingCartContext";
 import { BsX } from "react-icons/bs";
 import styled from "styled-components";
-import prod from "../../../assets/products/prod1.webp";
 // import Product from "../../Products/Product/Product";
 
-const CartItem = ({ item, setCart }) => {
+const CartItem = ({ item }) => {
+  const { dispatch } = useContext(CartContext)
   const handleRemove = () => {
-    setCart((prevCart) => prevCart.filter((product) => product.id !== item.id));
+    dispatch({ type: 'clean', id: item._id })
+    // setCart((prevCart) => prevCart.filter((product) => product.id !== item.id));
   };
 
-  const handleQuantityChange = (newQuantity) => {
-    setCart((prevCart) =>
-      prevCart.map((product) =>
-        product.id === item.id ? { ...product, quantity: newQuantity } : product
-      )
-    );
+  const addProduct = () => {
+    dispatch({ type: 'add', product: item, quantity: 1 })
+  };
+  const removeProduct = () => {
+    if (item.quantity === 1) {
+      handleRemove()
+    }
+    dispatch({ type: 'remove', id: item._id })
   };
 
   return (
     <CartProducts>
       <CartProduct>
         <ImgContainer>
-          <img src={prod} />
+          <img src={item.image} alt={item.name} />
         </ImgContainer>
 
         <ProdDetails>
-          <Name>Product name</Name>
+          <Name>{item.name}</Name>
           <BsX CloseBtn onClick={handleRemove} />
 
           <QuantityButtons>
-            <span onClick={() => handleQuantityChange(item.quantity - 1)}>
+            <span onClick={removeProduct} disabled={item.quantity === 0}>
               -
             </span>
             <span>{item.quantity}</span>
-            <span onClick={() => handleQuantityChange(item.quantity + 1)}>
+            <span onClick={addProduct}>
               +
             </span>
           </QuantityButtons>
@@ -144,4 +147,3 @@ const Text = styled.div`
 const HighLight = styled.span`
   color: #8e2de2;
 `;
-

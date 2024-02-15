@@ -1,40 +1,56 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import RelatedProducts from "./RelatedProducts/RelatedProducts";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { useFetch } from "../../useFetch";
 import { useParams } from "react-router-dom";
+import { CartContext } from "../Cart/ShoppingCartContext";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const { data, loading, error } = useFetch(
     `http://localhost:3000/products/${id}`
   );
+  const [quantity, setQuantity] = useState(0)
+  const { shoppingCart, dispatch } = useContext(CartContext);
   if (loading) {
     return null;
   }
+  const product = {
+    ...data,
+    ...shoppingCart.items.find((item) => item._id === id),
+  };
+  
+  const addProduct = () => {
+    dispatch({ type: "add", product, quantity });
+  };
   return (
     <SingleProductMainContent>
       <Layout>
         {error && <li>Error: {error}</li>}
         {loading && <li>Loading...</li>}
-        <SingleProductPage key={data._id}>
+        <SingleProductPage key={product._id}>
           <Left>
-            <img src={data.image} />
+            <img src={product.image} />
           </Left>
           <Right>
-            <Name>{data.name}</Name>
-            <Price>{data.price}</Price>
-            <Desc>{data.description}</Desc>
+            <Name>{product.name}</Name>
+            <Price>{product.price}</Price>
+            <Desc>{product.description}</Desc>
 
             <CartButtons>
               <QuantityButtons>
-                <span>-</span>
-                <span>5</span>
-                <span>+</span>
+                <ButtonRemover
+                  onClick={() => setQuantity(quantity - 1)}
+                  disabled={quantity === 1}
+                >
+                  -
+                </ButtonRemover>
+                <span>{quantity}</span>
+                <ButtonRemover onClick={() => setQuantity(quantity + 1)}>+</ButtonRemover>
               </QuantityButtons>
 
-              <AddToCartButton>
+              <AddToCartButton onClick={addProduct}>
                 <BsFillCartPlusFill size={20} />
                 ADD TO CART
               </AddToCartButton>
@@ -45,7 +61,7 @@ const SingleProduct = () => {
             <InfoItem>
               <TextBold>
                 Category:
-                <span>{data.categories}</span>
+                <span>{product.categories}</span>
               </TextBold>
             </InfoItem>
           </Right>
@@ -59,10 +75,11 @@ const SingleProduct = () => {
 export default SingleProduct;
 
 const SingleProductMainContent = styled.div`
-  margin: 20px 0;
+  margin: 0;
   @media screen and (min-width: 768px) {
-    margin: 75px 0;
+    margin: 0;
   }
+  padding-top: 100px;
 `;
 
 const Layout = styled.div`
@@ -213,4 +230,14 @@ const TextBold = styled.span`
     cursor: pointer;
     color: #603e85;
   }
+`;
+
+const ButtonRemover = styled.button`
+  font-size: 18px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6b6b6b;
 `;

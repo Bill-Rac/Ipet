@@ -21,9 +21,9 @@ const Header = () => {
     setShowLoginModal(false);
   };
 
-  const [cart, setCart] = useContext(CartContext);
+  const { shoppingCart } = useContext(CartContext);
 
-  const quantity = cart.reduce((acc, curr) => {
+  const quantity = shoppingCart.items.reduce((acc, curr) => {
     return acc + curr.quantity;
   }, 0);
 
@@ -69,6 +69,7 @@ const MainHeader = styled.header`
   color: white;
   border-bottom: 3px solid rgba(0, 0, 0, 0.1);
   z-index: 99;
+  /* position: fixed; */
 
   @media (min-width: 768px) {
     padding: 0 40px;

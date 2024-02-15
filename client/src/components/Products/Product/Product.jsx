@@ -5,40 +5,26 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../../Cart/ShoppingCartContext";
 
 const Product = () => {
+  const { dispatch } = useContext(CartContext);
   const { data, loading, error } = useFetch("http://localhost:3000/products");
   if (loading) return <li>Loading...</li>;
   if (error) return <li>Error: {error}</li>;
 
-  const [cart, setCart] = useContext(CartContext);
 
-  const addToCart = (id, price) => {
-    setCart((currProducts) => {
-      const isProductFound = currProducts.find((product) => product.id === id);
-      if (isProductFound) {
-        return currProducts.map((product) =>
-          product.id === id
-            ? { ...product, quantity: product.quantity + 1 }
-            : product
-        );
-      } else {
-        return [...currProducts, { id, quantity: 1, price }];
-      }
-    });
-  };
-
-  const removeProduct = (id) => {
-    setCart((currProducts) => {
-      const foundProduct = currProducts.find((product) => product.id === id);
-      if (foundProduct && foundProduct.quantity === 1) {
-        return currProducts.filter((product) => product.id !== id);
-      } else {
-        return currProducts.map((product) =>
-          product.id === id
-            ? { ...product, quantity: product.quantity - 1 }
-            : product
-        );
-      }
-    });
+  const addToCart = (product) => {
+    dispatch({ type: 'new', product })
+    // setCart((prevCart) => {
+    //   const isProductFound = prevCart.find((item) => item.id === product.id);
+    //   if (isProductFound) {
+    //     return prevCart.map((item) =>
+    //       item.id === product.id
+    //         ? { ...item, quantity: item.quantity + 1 }
+    //         : item
+    //     );
+    //   } else {
+    //     return [...prevCart, { ...product, quantity: 1 }];
+    //   }
+    // });
   };
 
   return data?.map((product) => (
@@ -52,7 +38,7 @@ const Product = () => {
           <Price>{product.price}</Price>
         </ProdDetails>
       </StyledLink>
-      <ItemAddButton onClick={() => addToCart(product.id, product.price)}>
+      <ItemAddButton onClick={() => addToCart(product)}>
         Add To Cart
       </ItemAddButton>
     </ProductCard>
