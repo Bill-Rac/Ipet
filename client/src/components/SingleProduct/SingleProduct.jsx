@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import RelatedProducts from "./RelatedProducts/RelatedProducts";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { useFetch } from "../../useFetch";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../Cart/ShoppingCartContext";
+import { getImageUrl } from "../Admin/firebase/config";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -12,6 +13,16 @@ const SingleProduct = () => {
     `${import.meta.env.VITE_BACKEND_URL}/products/${id}`
   );
   const [quantity, setQuantity] = useState(0);
+  const [imageUrl, setImageUrl] = useState()
+  useEffect(() => {
+    const setImageDownloadUrl = async () => {
+      const url = await getImageUrl(data.image)
+      setImageUrl(url);
+    }
+    if (data) {
+      setImageDownloadUrl()
+    } 
+  }, [data])
   const { shoppingCart, dispatch } = useContext(CartContext);
   if (loading) {
     return null;
@@ -31,7 +42,7 @@ const SingleProduct = () => {
         {loading && <li>Loading...</li>}
         <SingleProductPage key={product._id}>
           <Left>
-            <img src={product.image} />
+            <img src={imageUrl} />
           </Left>
           <Right>
             <Name>{product.name}</Name>

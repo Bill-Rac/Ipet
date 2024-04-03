@@ -1,31 +1,54 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../ShoppingCartContext";
 import { BsX } from "react-icons/bs";
 import styled from "styled-components";
+import { getImageUrl } from "../../Admin/firebase/config";
+import { useFetch } from "../../../useFetch";
+import { useParams } from "react-router-dom";
 // import Product from "../../Products/Product/Product";
 
 const CartItem = ({ item }) => {
-  const { dispatch } = useContext(CartContext)
+  const { dispatch } = useContext(CartContext);
   const handleRemove = () => {
-    dispatch({ type: 'clean', id: item._id })
+    dispatch({ type: "clean", id: item._id });
+
     // setCart((prevCart) => prevCart.filter((product) => product.id !== item.id));
   };
 
+  const { id } = useParams();
+  const { data, loading, error } = useFetch(
+    `${import.meta.env.VITE_BACKEND_URL}/products/${item._id}`
+  );
+  const [imageUrl, setImageUrl] = useState();
+  useEffect(() => {
+    const setImageDownloadUrl = async () => {
+      console.log("url set", data)
+      const url = await getImageUrl(data.image);
+      setImageUrl(url);
+    };
+    if (data) {
+      setImageDownloadUrl();
+    }
+  }, [data]);
+
   const addProduct = () => {
-    dispatch({ type: 'add', product: item, quantity: 1 })
+    dispatch({ type: "add", product: item, quantity: 1 });
   };
+  if (loading) {
+    return null;
+  }
   const removeProduct = () => {
     if (item.quantity === 1) {
-      handleRemove()
+      handleRemove();
     }
-    dispatch({ type: 'remove', id: item._id })
+    dispatch({ type: "remove", id: item._id });
   };
 
   return (
     <CartProducts>
       <CartProduct>
         <ImgContainer>
-          <img src={item.image} alt={item.name} />
+          <img src={imageUrl} alt={item.name} />
         </ImgContainer>
 
         <ProdDetails>
@@ -37,9 +60,7 @@ const CartItem = ({ item }) => {
               -
             </span>
             <span>{item.quantity}</span>
-            <span onClick={addProduct}>
-              +
-            </span>
+            <span onClick={addProduct}>+</span>
           </QuantityButtons>
 
           <Text>
