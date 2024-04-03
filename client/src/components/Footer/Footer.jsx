@@ -5,7 +5,6 @@ import {
   BsFillEnvelopeFill,
 } from "react-icons/bs";
 import styled from "styled-components";
-import Payment from "../../assets/payments.png";
 
 const Footer = () => {
   return (
@@ -62,7 +61,6 @@ const Footer = () => {
             IPET STORE 2023 CREATED BY BILL, JUAN & CARLOS. E-COMMERCE FOR
             EXOTIC PETS.
           </Text>
-          <img src={Payment} alt="Payment" />
         </BottomBarContent>
       </BottomBar>
     </FooterContainer>

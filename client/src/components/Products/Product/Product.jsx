@@ -1,16 +1,34 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useFetch } from "../../../useFetch";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../Cart/ShoppingCartContext";
+import { getImageUrl } from "../../Admin/firebase/config";
 
 const Product = () => {
   const { dispatch } = useContext(CartContext);
-  const { data, loading, error } = useFetch("http://localhost:3000/products");
+  const { data, loading, error } = useFetch(`${import.meta.env.VITE_BACKEND_URL}/products`);
+  const [imagesUrls, setImagesUrls] = useState({});
+  const getImageDownloadUrl = async (id, imageName) => {
+    const url = await getImageUrl(imageName)
+    setImagesUrls(prevImages => ({
+      ...prevImages,
+      [id]: url
+    }))
+    console.log(`For product ${id} and ${imageName}, url is ${url}`)
+  }
+  useEffect(() => {
+    const setImages = async () => {
+      await Promise.all(data.map(product => getImageDownloadUrl(product._id, product.image)))
+    }
+    if (data) { 
+      setImages()
+    }
+  }, [data, loading])
+  
   if (loading) return <li>Loading...</li>;
   if (error) return <li>Error: {error}</li>;
-
-
+  console.log("images", imagesUrls)
   const addToCart = (product) => {
     dispatch({ type: 'new', product })
     // setCart((prevCart) => {
@@ -28,10 +46,10 @@ const Product = () => {
   };
 
   return data?.map((product) => (
-    <ProductCard key={product.id}>
+    <ProductCard key={product._id}>
       <StyledLink to={`/product/${product._id}`}>
         <Thumbnail>
-          <img src={product.image} alt={product.name} />
+          <img src={imagesUrls[product._id]} alt={product.name} />
         </Thumbnail>
         <ProdDetails>
           <Name>{product.name}</Name>

@@ -17,7 +17,7 @@ const Header = () => {
   };
 
   const handleCloseLoginModal = () => {
-    "http://localhost:3000";
+    import.meta.env.VITE_BACKEND_URL;
     setShowLoginModal(false);
   };
 

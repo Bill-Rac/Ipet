@@ -9,9 +9,9 @@ import { CartContext } from "../Cart/ShoppingCartContext";
 const SingleProduct = () => {
   const { id } = useParams();
   const { data, loading, error } = useFetch(
-    `http://localhost:3000/products/${id}`
+    `${import.meta.env.VITE_BACKEND_URL}/products/${id}`
   );
-  const [quantity, setQuantity] = useState(0)
+  const [quantity, setQuantity] = useState(0);
   const { shoppingCart, dispatch } = useContext(CartContext);
   if (loading) {
     return null;
@@ -20,7 +20,7 @@ const SingleProduct = () => {
     ...data,
     ...shoppingCart.items.find((item) => item._id === id),
   };
-  
+
   const addProduct = () => {
     dispatch({ type: "add", product, quantity });
   };
@@ -47,7 +47,9 @@ const SingleProduct = () => {
                   -
                 </ButtonRemover>
                 <span>{quantity}</span>
-                <ButtonRemover onClick={() => setQuantity(quantity + 1)}>+</ButtonRemover>
+                <ButtonRemover onClick={() => setQuantity(quantity + 1)}>
+                  +
+                </ButtonRemover>
               </QuantityButtons>
 
               <AddToCartButton onClick={addProduct}>
