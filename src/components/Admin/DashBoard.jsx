@@ -38,9 +38,9 @@
 // `;
 
 import React from "react";
-import Layout from "./layout";
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
+import Layout from "./Layout"
 
 const DashBoard = () => {
   const { user, isAuthenticated } = useAuth0();
