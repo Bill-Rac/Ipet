@@ -1,63 +1,28 @@
-// import React from "react";
-// import styled from "styled-components";
-// import AdminNav from "./AdminNav";
-// import { useAuth0 } from "@auth0/auth0-react";
-
-// const DashBoard = () => {
-//   const { user, isAuthenticated } = useAuth0();
-
-//   return (
-//     isAuthenticated && (
-//       <LogginAnuncement>
-//         <AdminNav />
-//         <InformationText>
-//           Logged in
-//           {user.email}
-//         </InformationText>
-//       </LogginAnuncement>
-//     )
-//   );
-// };
-
-// export default DashBoard;
-
-// const LogginAnuncement = styled.div`
-//   background-color: #8e2de2;
-//   min-height: 100vh;
-//   display: flex;
-// `;
-
-// const InformationText = styled.div`
-//   background-color: white;
-//   flex-grow: 1;
-//   margin-top: 0.5rem;
-//   margin-right: 0.5rem;
-//   margin-bottom: 0.5rem;
-//   border-radius: 0.5rem;
-//   padding: 1rem;
-// `;
-
 import React from "react";
-import Layout from "./layout";
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
+import { Navigate } from "react-router-dom";
+
+import Layout from "./Layout";
 
 const DashBoard = () => {
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  if (isLoading) return <div>Loading...</div>;
+  if (!isAuthenticated) {
+    return <Navigate replace to="/" />;
+  }
   return (
-    isAuthenticated && (
-      <Layout>
-        <InformationContainer>
-          <Bienvenida>
-            Hello, <b>{user.name}</b>
-          </Bienvenida>
-          <ProfileContainer>
-            <ProfileImage src={user.picture} alt={user.name} />
-            <ProfileUsername>{user.nickname}</ProfileUsername>
-          </ProfileContainer>
-        </InformationContainer>
-      </Layout>
-    )
+    <Layout>
+      <InformationContainer>
+        <Bienvenida>
+          Hello, <b>{user.name}</b>
+        </Bienvenida>
+        <ProfileContainer>
+          <ProfileImage src={user.picture} alt={user.name} />
+          <ProfileUsername>{user.nickname}</ProfileUsername>
+        </ProfileContainer>
+      </InformationContainer>
+    </Layout>
   );
 };
 
